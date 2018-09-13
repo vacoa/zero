@@ -86,7 +86,7 @@ REMOVE PADDING AND BORDER ROUNDED WHEN TOO SMALL
     padding-top:50px;
 }
 .read {
-    width:95%;
+    width:95% !important;
 }
 }
 /* -------------------------------------

@@ -2,7 +2,6 @@ $(document).ready(() => {
 	let $button = $('#listenbutton');
 	$button.on('click', function() {
 		var $this = $(this);
-                var txt = $this.html();
 		if($this.hasClass('active') || $this.hasClass('success')) {
 			return false;
 		}
@@ -30,7 +29,7 @@ $(document).ready(() => {
                             
                         }
                         setTimeout(()=> {
-                                $this.text(txt);
+                                $this.text('ZE\nRO');
                                 $this.removeClass('success animated pulse');
                                 $this.blur();
                         }, 1300);

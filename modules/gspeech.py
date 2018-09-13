@@ -35,7 +35,7 @@ class Gspeech():
             config=self.config,
             interim_results=True)
         
-    def listen(self, initout = 5, timeout = 1, maxtime = 10):
+    def listen(self, initout = 5, timeout = 0.7, maxtime = 10):
         #initout = 2 # First timeout, when no word at all has been detected yet
         #timeout = 1 # Second timeout, to decide to close the stream
         #maxtime = 10 # Maximum listening time from first result
