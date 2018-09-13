@@ -2,8 +2,11 @@
 {% load static %}
 {% block title %}Dashboard{% endblock %}
 {% block head %}
+<link rel="stylesheet"type="text/css" href="{% static 'css/loadbutton.css' %}">
+<script type="text/javascript" charset="utf8" src="{% static 'gui/loadbutton.js' %}"></script>
 <link rel="stylesheet"type="text/css" href="{% static 'jqueryui/jquery-ui.min.css' %}">
 <script type="text/javascript" charset="utf8" src="{% static 'jqueryui/jquery-ui.min.js' %}"></script>
+
 <script type="text/javascript" charset="utf8">
 $(document).ready( function () {
 menu('navboard');
@@ -11,13 +14,25 @@ menu('navboard');
 </script>
 <style>
 </style>
+
 {% endblock %}
 {% block main %}
-<div class="read">
-    <h1>Dashboard</h1>
-    <p>
-        Working on it...
-    </p>
+<div style="margin-top:10px;width:95%;max-width:700px;" class="read">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td style="text-align:right;padding-right:20px">
+            <h1 style="color:#ff5126;">Listen and Write</h1>
+            <p style="text-align:right;">Make Zero listen to what you have to say. Sound captured from the Jabra microphone.</p>
+        </td>
+        <td style="width:1%;vertical-align:top;padding-top:16px;"><button id="listenbutton" class="loadbutton" type="submit">ZE<br>RO</button></td>
+    <tr>
+    <tr>
+        <td style="text-align:left;">
+            <h1 style="color:#3bb873;">Result</h1>
+            <p id="listenres"></p>
+        </td>
+    </tr>
+    </table>
 
 </div>
 {% endblock %}

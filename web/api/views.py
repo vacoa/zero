@@ -1,16 +1,23 @@
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.apps import apps
 
-import io
-import base64
-import os
-import zipfile
-import tempfile
-import json
-
 from django.shortcuts import redirect, render
 from datetime import datetime
 
+import threading
+
+
+
+def listen(request):
+    lock = apps.get_app_config('api').busyLock
+    avail = lock.acquire(timeout=0.01)
+    if avail:
+        gsp = apps.get_app_config('api').gsp
+        report = gsp.listen()
+        lock.release()
+        return JsonResponse({'status':'ok','data':report})
+    else:
+        return JsonResponse({'status':'busy'})
 ##def summary(request):
 ##
 ##    mshp = apps.get_app_config('api').metashp

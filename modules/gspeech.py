@@ -14,6 +14,83 @@ from six.moves import queue
 
 
 
+class Gspeech():
+    def __init__(self, cred, language_code='fr-FR', speak=None):
+        # Audio recording parameters
+        self.rate = 16000
+        self.chunk = int(self.rate / 10)  # 100ms
+        self.speak = speak
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred
+        
+        # See http://g.co/cloud/speech/docs/languages
+        # for a list of supported languages.
+        self.language_code = 'fr-FR'  # a BCP-47 language tag
+
+        self.client = speech.SpeechClient()
+        self.config = types.RecognitionConfig(
+            encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
+            sample_rate_hertz=self.rate,
+            language_code=self.language_code)
+        self.streaming_config = types.StreamingRecognitionConfig(
+            config=self.config,
+            interim_results=True)
+        
+    def listen(self, initout = 5, timeout = 1, maxtime = 10):
+        #initout = 2 # First timeout, when no word at all has been detected yet
+        #timeout = 1 # Second timeout, to decide to close the stream
+        #maxtime = 10 # Maximum listening time from first result
+        last = None # If none initout applies from the generator enter time, otherwise timeout applies from last
+        
+        report = {'stream':None, # Status of the stream
+                  'stab':None, # Stability of the result
+                  'conf':None, # Confidence in the transcript
+                  'isfin':None} # Is the result final according to Google
+        
+        with MicrophoneStream(self.rate, self.chunk, initout, timeout, maxtime, last) as stream:
+            
+            audio_generator = stream.generator()
+            requests = (types.StreamingRecognizeRequest(audio_content=content)
+                        for content in audio_generator)
+            
+            responses = self.client.streaming_recognize(self.streaming_config, requests)
+            
+            if self.speak is not None:
+                self.speak.text_async('Oui ?')
+            logger.info('Listening...')
+            for response in responses:
+                if not response.results:
+                    continue
+
+                result = response.results[0]
+                if not result.alternatives:
+                    continue
+
+                transcript = result.alternatives[0].transcript
+                stream.last = time.time()
+                if stream.firsttime is None:
+                    stream.firsttime = stream.last
+                report['stream'] = stream.status
+                report['stab'] = result.stability
+                report['conf'] = result.alternatives[0].confidence
+                report['isfin'] = result.is_final
+                
+                logger.debug('[tmp] ' + transcript + ' ' + str(report))
+                if result.is_final or report['stream'] != 'open':
+                    if re.search(r'\b(exit|quit)\b', transcript, re.I):
+                        print('Exiting..')
+                        break
+            self.speak.dong()
+            if report['stream'] is None:
+                report['stream'] = stream.status
+                report['trans'] = None
+            else:
+                report['trans'] = transcript
+            logger.info('[fin] report = ' + str(report))
+        
+        return report
+        
+
+
 
 class MicrophoneStream(object):
     """Opens a recording stream as a generator yielding the audio chunks."""
@@ -105,80 +182,6 @@ class MicrophoneStream(object):
 
         
 
-
-
-class Gspeech():
-    def __init__(self, cred, language_code='fr-FR'):
-        # Audio recording parameters
-        self.rate = 16000
-        self.chunk = int(self.rate / 10)  # 100ms
-        
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred
-        
-        # See http://g.co/cloud/speech/docs/languages
-        # for a list of supported languages.
-        self.language_code = 'fr-FR'  # a BCP-47 language tag
-
-        self.client = speech.SpeechClient()
-        self.config = types.RecognitionConfig(
-            encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-            sample_rate_hertz=self.rate,
-            language_code=self.language_code)
-        self.streaming_config = types.StreamingRecognitionConfig(
-            config=self.config,
-            interim_results=True)
-        
-    def listen(self):
-        initout = 2 # First timeout, when no word at all has been detected yet
-        timeout = 1 # Second timeout, to decide to close the stream
-        maxtime = 10 # Maximum listening time from first result
-        last = None # If none initout applies from the generator enter time, otherwise timeout applies from last
-        
-        report = {'stream':None, # Status of the stream
-                  'stab':None, # Stability of the result
-                  'conf':None, # Confidence in the transcript
-                  'isfin':None} # Is the result final according to Google
-        
-        with MicrophoneStream(self.rate, self.chunk, initout, timeout, maxtime, last) as stream:
-            
-            audio_generator = stream.generator()
-            requests = (types.StreamingRecognizeRequest(audio_content=content)
-                        for content in audio_generator)
-            
-            responses = self.client.streaming_recognize(self.streaming_config, requests)
-            
-            logger.info('Listening...')
-            for response in responses:
-                if not response.results:
-                    continue
-
-                result = response.results[0]
-                if not result.alternatives:
-                    continue
-
-                transcript = result.alternatives[0].transcript
-                stream.last = time.time()
-                if stream.firsttime is None:
-                    stream.firsttime = stream.last
-                report['stream'] = stream.status
-                report['stab'] = result.stability
-                report['conf'] = result.alternatives[0].confidence
-                report['isfin'] = result.is_final
-                
-                logger.debug('[tmp] ' + transcript + ' ' + str(report))
-                if result.is_final or report['stream'] != 'open':
-                    if re.search(r'\b(exit|quit)\b', transcript, re.I):
-                        print('Exiting..')
-                        break
-            
-            if report['stream'] is None:
-                report['stream'] = stream.status
-                report['trans'] = None
-            else:
-                report['trans'] = transcript
-            logger.info('[fin] report = ' + str(report))      
-
-        
 
 
 

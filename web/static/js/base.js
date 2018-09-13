@@ -1,9 +1,17 @@
+// THis should be done before all big contents are loaded
 $(document).ready( function () {
     var avail = resize();
 });
 
 $( window ).resize(function () {
     avail = resize();
+});
+
+// This should be done because the vertical scrollbar can appear after the document is ready
+$(window).on('load', function () {
+    if ($( 'body' ).height() > $( window ).height()) { // Only if scrollbar
+        avail = resize();
+    }
 });
 
 function resize() {
@@ -38,8 +46,8 @@ function resize() {
 
 function menu(id) {
     comp = [
+        {id:"navboard",href:"./dashboard",title:"Board",icon:'<i class="fa fa-home"></i>    '},
         {id:"navhome",href:"./home",title:"Home"},
-        {id:"navboard",href:"./dashboard",title:"Dashboard"},
         {id:"navman",href:"./manual",title:"Manual"},
         {id:"navabout",href:"./about",title:"About"}
     ];
@@ -51,7 +59,12 @@ function menu(id) {
         } else {
             cla = '';
         }
-        str = str + '<a id="'+ comp[i].id +'" class="'+ cla +'" href="'+ comp[i].href +'">'+ comp[i].title +'</a>';
+        if (comp[i].icon) {
+            icon = comp[i].icon;
+        } else {
+            icon = '';
+        }
+        str = str + '<a id="'+ comp[i].id +'" class="'+ cla +'" href="'+ comp[i].href +'">'+ icon + comp[i].title +'</a>';
     }
     str = str + '<a href="javascript:void(0);" class="icon" onclick="menutoggle()"><i class="fa fa-bars"></i></a>'
     $(".topnav").html(str);
@@ -65,3 +78,4 @@ function menutoggle() {
         x.className = "topnav";
     }
 }
+

@@ -63,12 +63,14 @@ REMOVE PADDING AND BORDER ROUNDED WHEN TOO SMALL
 .topnav {
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
+    z-index:1;
 }
 .topnav a:not(:first-child) {display: none;}
 .topnav a.icon {
     float: right;
     display: block;
 }
+
 /*.topnav.responsive {position: relative;}*/
 .topnav.responsive a.icon {
     position: absolute;
@@ -79,6 +81,12 @@ REMOVE PADDING AND BORDER ROUNDED WHEN TOO SMALL
     float: none;
     display: block;
     text-align: left;
+}
+.main .wrapper {
+    padding-top:50px;
+}
+.read {
+    width:95%;
 }
 }
 /* -------------------------------------
@@ -162,7 +170,7 @@ body {
 
 
 .read {
-    width:95%;
+    width:80%;
     display:block;
     margin:20px auto 0px auto;
 }
@@ -186,9 +194,7 @@ body {
     padding: 5px 10px 2px 10px;
 }
 
-.main .wrapper {
-    padding-top:50px;
-}
+
 
 
 .logo {
@@ -272,6 +278,8 @@ a {
 
 /* Style the links inside the navigation bar */
 .topnav a {
+
+    transition: all 0.2s ease;
     float: left;
     color: #f2f2f2;
     display: block;
