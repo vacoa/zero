@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About{% endblock %}
+{% block head %}
+<script type="text/javascript" charset="utf8" src="{% static 'gui/home.js' %}"></script>
+<link rel="stylesheet"type="text/css" href="{% static 'jqueryui/jquery-ui.min.css' %}">
+<script type="text/javascript" charset="utf8" src="{% static 'jqueryui/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" charset="utf8">
+$(document).ready( function () {
+menu('navabout');
+});
+</script>
+<style>
+</style>
+{% endblock %}
+{% block main %}
+<div class="read">
+    <h1>About Shape</h1>
+    <p>
+        Working on it...
+    </p>
+
+</div>
+{% endblock %}

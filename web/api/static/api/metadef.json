@@ -1,0 +1,178 @@
+{
+  "class": [
+    {
+      "tag":    "group",
+      "name":   "Group",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "root",
+      "name":   "Root",
+      "tip":    "Main meta-parameter",
+      "desc":   "Main meta-parameter, cannot be removed"
+    },
+    {
+      "tag":    "tag",
+      "name":   "Tag",
+      "tip":    "All tags (campaign, collection and shape)",
+      "desc":   "All tags (campaign, collection and shape)"
+    },
+    {
+      "tag":    "msg",
+      "name":   "Message",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "pos",
+      "name":   "Position",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "default",
+      "name":   "Default",
+      "tip":    "Displayed by default",
+      "desc":   ""
+    },
+    {
+      "tag":    "ftp",
+      "name":   "FTP",
+      "tip":    "FTP Parameters",
+      "desc":   ""
+    },
+    {
+      "tag":    "duration",
+      "name":   "Duration in seconds",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "timePosix",
+      "name":   "POSIX Time",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "rf",
+      "name":   "RF Parameters",
+      "tip":    "",
+      "desc":   ""
+    }
+  ],
+  "meta": [
+    {
+      "tag":    "folder",
+      "name":   "Folder",
+      "class":  "group",
+      "tip":    "Server folder of the shape",
+      "desc":   "Server folder of the shape"
+    },
+    {
+      "tag":    "shapeFile",
+      "name":   "Shape File",
+      "class":  "root",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "campTag",
+      "name":   "Campaign Tag",
+      "class":  "tag default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "campMsg",
+      "name":   "Campaign Description",
+      "class":  "msg",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "operator",
+      "name":   "Operator",
+      "class":  "",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "device",
+      "name":   "Device Name",
+      "class":  "",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "user",
+      "name":   "User Name",
+      "class":  "",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "lastStartPos",
+      "name":   "Last chunk starting position",
+      "class":  "pos default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "firstStartPos",
+      "name":   "First Chunk Start Position",
+      "class":  "pos default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "shapeTag",
+      "name":   "Shape Tag",
+      "class":  "tag default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "shapeMsg",
+      "name":   "Shape Message",
+      "class":  "msg",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "ftpScenario",
+      "name":   "FTP Scenario",
+      "class":  "ftp",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "firstStartTime",
+      "name":   "First Chunk Start Time",
+      "class":  "timePosix default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "colTag",
+      "name":   "Collection Tag",
+      "class":  "tag default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "deltaStartTime",
+      "name":   "First/Last Chunk Start Time Difference",
+      "class":  "duration default",
+      "tip":    "",
+      "desc":   ""
+    },
+    {
+      "tag":    "rfCondition",
+      "name":   "RF Conditions",
+      "class":  "rf",
+      "tip":    "",
+      "desc":   ""
+    }
+  ]
+}

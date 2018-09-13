@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="shortcut icon" href="{%  static 'img/logo.ico' %}">
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="{%  static 'css/base.css' %}">
+        <script type="text/javascript" charset="utf8" src="{%  static 'js/jquery-3.3.1.js' %}"></script>
+        <script type="text/javascript" charset="utf8" src="{%  static 'js/base.js' %}"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% block head %}
+        {% endblock %}
+        <title>Zero</title>
+
+    </head>
+    <body>
+        <table class="body" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="container">
+                    <div class="content">
+
+                        <!-- START CENTERED CONTAINER -->
+                        <span class="preheader">Zero Connected Home</span>
+                        <table class="header" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="wrapper">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td>
+                                                <img src="{% static 'img/logo.png' %}" class="logo"/>
+                                            </td>
+                                            <td>
+                                                <p class="subtitle">
+                                                    {% block subtitle %}
+                                                     Zero Connected Home
+                                                    {% endblock %}
+                                                </p>
+                                                <h1 class="title">
+                                                
+                                                    {% block title %}
+
+                                                    {% endblock %}
+                                                </h1>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="topnav" id="mytopnav">
+                        </div>
+                        <table class="main" border="0" cellpadding="0" cellspacing="0">
+                            <!-- START MAIN CONTENT AREA -->
+                            <tr>
+                                <td class="wrapper">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td class="tmain">
+                                                {% block main %}
+                                                {% endblock %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <!-- END MAIN CONTENT AREA -->
+                        </table>
+
+                        <!-- START FOOTER -->
+                        <table class="footer" border="0" cellpadding="0" cellspacing="0">
+                            <!-- START MAIN CONTENT AREA -->
+                            <tr>
+                                <td class="wrapper">
+                                    <table class="tfooter" classborder="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td class="powered">
+                                                Powered by <a href="mailto:jonathan.ahsue@gmail.com">jonathan.ah.sue@intel.com</a>.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="contact">
+                                                Jonathan Ah Sue <br><span class="apple-link">Kirchenstrasse 81,<br>81675 Munich,<br>GERMANY</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- END FOOTER -->
+
+                        <!-- END CENTERED WHITE CONTAINER -->
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+
