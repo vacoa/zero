@@ -19,7 +19,9 @@ from . import views
 
 
 urlpatterns = [
-    path('listen', views.listen)
+    path('listen', views.listen),
+    path('status', views.status),
+    path('switchzero', views.switchzero)
 
 ]
 

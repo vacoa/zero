@@ -1,0 +1,55 @@
+.togglebutton {
+  margin: auto;
+  padding: 20px;
+  #display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border-radius: 10px;
+  will-change: transform;
+  transition: all 0.2s ease;
+  border: 2px solid #ff5126;
+  cursor: pointer;
+  font-size: 16px;
+  color: #ff5126;
+  outline: none;
+  text-align: center;
+  z-index:0;
+}
+
+.togglebutton:active {
+  font-size: 15px;
+  transform: translateY(1px);
+}
+.togglebutton.active {
+  border-color: #ff5126;
+  color: #ff5126;
+}
+.togglebutton.active:hover {
+  background: #ff5126;
+  color: #fff;
+}
+.togglebutton.loader {
+  font-size: 0;
+  border-radius: 25px;
+  width: 50px;
+  background: transparent;
+  border-right: 2px solid #fff;
+  animation: loader 0.4s linear infinite;
+}
+.togglebutton.inactive {
+  border-color: #b3b3b3;
+  color: #b3b3b3;
+}
+.togglebutton.inactive:hover {
+  background: #b3b3b3;
+  color: #fff;
+}
+@keyframes loader {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

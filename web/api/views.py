@@ -3,6 +3,7 @@ from django.apps import apps
 
 from django.shortcuts import redirect, render
 from datetime import datetime
+import time
 
 import threading
 
@@ -18,6 +19,22 @@ def listen(request):
         return JsonResponse({'status':'ok','data':report})
     else:
         return JsonResponse({'status':'busy'})
+    
+def status(request):
+    sb = apps.get_app_config('api').sb
+    return JsonResponse({'status':'ok',
+                         'sb':sb.isAlive()})
+
+def switchzero(request):
+    state = request.GET['state']
+    sb = apps.get_app_config('api').sb
+    if state=='true' and (not sb.state):
+        sb.launch()
+    elif state=='false' and sb.state:
+        sb.stop()
+    else:
+        return JsonResponse({'status':'ko'})
+    return JsonResponse({'status':'ok'})
 ##def summary(request):
 ##
 ##    mshp = apps.get_app_config('api').metashp
