@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Dashboard{% endblock %}
 {% block head %}
+<script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
 <script type="text/javascript" charset="utf8" src="{% static 'gui/dashboard.js' %}"></script>
 
 <link rel="stylesheet"type="text/css" href="{% static 'css/loadbutton.css' %}">
@@ -10,6 +11,7 @@
 <script type="text/javascript" charset="utf8" src="{% static 'js/togglebutton.js' %}"></script>
 <link rel="stylesheet"type="text/css" href="{% static 'jqueryui/jquery-ui.min.css' %}">
 <script type="text/javascript" charset="utf8" src="{% static 'jqueryui/jquery-ui.min.js' %}"></script>
+
 <script type="text/javascript" charset="utf8">
 $(document).ready( function () {
 menu('navboard');

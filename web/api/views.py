@@ -124,6 +124,30 @@ def player(request):
         ply.next()
     elif cmd == 'previous':
         ply.previous()
+    elif cmd == 'volume':
+        ply.setvolume(arg)
+    else:
+        raise Exception()
+    return {}
+
+@singleton
+def leap(request):
+    cmd = request.GET['cmd']
+    arg = request.GET['arg']
+
+    ply = apps.get_app_config('api').ply
+    if cmd == 'stop':
+        ply.stop()
+    elif cmd == 'play':
+        ply.play()
+    elif cmd == 'pause':
+        ply.pause()
+    elif cmd == 'next':
+        ply.next()
+    elif cmd == 'previous':
+        ply.previous()
+    elif cmd == 'volume':
+        ply.setvolume(arg)
     else:
         raise Exception()
     return {}

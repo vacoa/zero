@@ -19,6 +19,7 @@ from . import views
 
 
 urlpatterns = [
+    path('leap', views.leap),
     path('action', views.action),
     path('_action', views._action),
     path('listen', views.listen),
