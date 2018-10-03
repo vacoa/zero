@@ -19,9 +19,13 @@ from . import views
 
 
 urlpatterns = [
+    path('action', views.action),
+    path('_action', views._action),
     path('listen', views.listen),
     path('status', views.status),
-    path('switchzero', views.switchzero)
+    path('switchzero', views.switchzero),
+    path('player', views.player),
+    path('speak', views.speak)
 
 ]
 

@@ -8,20 +8,32 @@ import logger
 import gspeech
 import speak
 import snowboy
+import gyoutube
+import player
+import action
+        
 
 # USe noreload option to avoid being launched twice and possibly launch threads twice
 class ApiConfig(AppConfig):
+
     name = 'api'
     busyLock = threading.Lock()
     root = "/home/pi/zero"
     urlroot = "http://192.168.178.82:8000"
     cred = root + "/Zero-b4a81cf1b175.json"
     model = root + "/repo2/resources/okzero.pmdl"
+    
     spk = speak.Speak()
     gsp = gspeech.Gspeech(cred, speak=spk)
-    sb = snowboy.Snowboy(model, urlroot + "/api/listen")
+    sb = snowboy.Snowboy(model, urlroot + "/api/_action")
     sb.start()
     sb.launch()
+    gytbsecret = "/home/pi/zero/apiyoutube_secret.json"
+    gytbFolder = "/home/pi/share/player"
+    gytb = gyoutube.Gyoutube(gytbsecret)
+    ply = player.Player(gytbFolder,gytb)
+    act = action.Action(ply=ply,spk=spk)
+    
     
 ##    metashp = models.Metashp('\\\\imcsmb.imu.intel.com\\cogpow\\SHAPE_auto')
 ##

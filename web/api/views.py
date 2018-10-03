@@ -4,27 +4,145 @@ from django.apps import apps
 from django.shortcuts import redirect, render
 from datetime import datetime
 import time
+import inspect
+import sys
+import re
 
 import threading
 
+def singleton(fcn): # wrapper in case standard responses should be sent
+    def wrapper(request):
+        lock = apps.get_app_config('api').busyLock
+        avail = lock.acquire(timeout=0.01)
+        print('ACQUIRE')
+        if avail:
+            try:
+                response = fcn(request)
+                if 'callback' in response:
+                    response['callback']()
+                    response['callback'] = inspect.getsource(response['callback'])
+                response['status'] = 'ok'
+            except:
+                e = sys.exc_info()[0]
+                s = sys.exc_info()[1]
+                print('ZERO ERROR:', e, s)
+                response = {'status': 'ko',
+                            'error': str(s)}
+            print('RELEASE')
+            lock.release()
+        else:
+            response = {'status':'busy'}
+        return JsonResponse(response)
+    return wrapper
+
+def sb_pause(fcn): # Pause snowboy background process during requests
+    def wrapper(request):
+        sb = apps.get_app_config('api').sb
+        oldstate = False
+        if sb.state:
+            oldstate = True
+            t = threading.Thread(target=sb.stop)
+            t.start()
+        try:
+            response = fcn(request)
+            if oldstate:
+                t.join()
+                sb.launch()
+        except:
+            if oldstate:
+                t.join()
+                sb.launch()
+            raise
+        return response
+    return wrapper
+
+def ply_pause(fcn): # Pause player when listening
+    def wrapper(request):
+        ply = apps.get_app_config('api').ply
+        wasplaying = False
+        if ply.is_playing():
+            wasplaying = True
+            ply.pause()
+        try: 
+            response = fcn(request)
+            if wasplaying:
+                ply.play()
+        except:
+            if wasplaying:
+                ply.play()
+            raise
+        return response
+    return wrapper
 
 
-def listen(request):
-    lock = apps.get_app_config('api').busyLock
-    avail = lock.acquire(timeout=0.01)
-    if avail:
-        gsp = apps.get_app_config('api').gsp
-        report = gsp.listen()
-        lock.release()
-        return JsonResponse({'status':'ok','data':report})
-    else:
-        return JsonResponse({'status':'busy'})
+@singleton
+@sb_pause
+@ply_pause
+def action(request):
+    gsp = apps.get_app_config('api').gsp
+    act = apps.get_app_config('api').act
+    report = gsp.listen()
+    response = act.do(report)
+    return response
     
+@singleton
+@ply_pause
+def _action(request):
+    gsp = apps.get_app_config('api').gsp
+    act = apps.get_app_config('api').act
+    report = gsp.listen()
+    response = act.do(report)
+    return response
+    
+@singleton
+@sb_pause
+@ply_pause
+def speak(request):
+    text = request.GET['text']
+    spk = apps.get_app_config('api').spk
+    spk.text(text)
+    return {}
+
+@singleton
+@sb_pause
+def player(request):
+    cmd = request.GET['cmd']
+    arg = request.GET['arg']
+
+    ply = apps.get_app_config('api').ply
+    if cmd == 'musique':
+        if not arg:
+            ply.playmedia('local',['/home/pi/share/player/lib/Comets.mp3',
+                                   '/home/pi/share/player/lib/Chupee.mp3'])
+    elif cmd == 'stop':
+        ply.stop()
+    elif cmd == 'play':
+        ply.play()
+    elif cmd == 'pause':
+        ply.pause()
+    elif cmd == 'next':
+        ply.next()
+    elif cmd == 'previous':
+        ply.previous()
+    else:
+        raise Exception()
+    return {}
+
+@singleton
+@sb_pause
+@ply_pause
+def listen(request):
+    gsp = apps.get_app_config('api').gsp
+    report = gsp.listen()
+    return {'data':report}
+
+
+@singleton
 def status(request):
     sb = apps.get_app_config('api').sb
-    return JsonResponse({'status':'ok',
-                         'sb':sb.isAlive()})
+    return {'sb':sb.state}
 
+@singleton
 def switchzero(request):
     state = request.GET['state']
     sb = apps.get_app_config('api').sb
@@ -33,8 +151,12 @@ def switchzero(request):
     elif state=='false' and sb.state:
         sb.stop()
     else:
-        return JsonResponse({'status':'ko'})
-    return JsonResponse({'status':'ok'})
+        raise Exception()
+    return {}
+
+
+
+        
 ##def summary(request):
 ##
 ##    mshp = apps.get_app_config('api').metashp

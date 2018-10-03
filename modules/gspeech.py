@@ -55,7 +55,7 @@ class Gspeech():
             responses = self.client.streaming_recognize(self.streaming_config, requests)
             
             if self.speak is not None:
-                self.speak.text_async('Oui ?')
+                self.speak.text_async('Oui?')
             logger.info('Listening...')
             for response in responses:
                 if not response.results:

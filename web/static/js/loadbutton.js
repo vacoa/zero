@@ -22,12 +22,12 @@ function loadbutton(data) {
                     'type' : 'GET',
                     'success' : function(data) {
                         if (data.status=="ok") {
-                            okfcn(data.data);
+                            okfcn(data);
                             $this.removeClass('loader active');
                             $this.text('OK');
                             $this.addClass('success animated pulse');
                         } else {
-                            kofcn(data.data);
+                            kofcn(data);
                             setTimeout(()=> {
                                 $this.removeClass('loader active');
                                 $this.text('KO');

@@ -1,12 +1,13 @@
 import os, sys
 import threading
+import subprocess
 
 class Speak():
     def __init__(self):
         self.lang = 'fr-FR'
         
     def text_async(self,txt):
-        t = threading.Thread(target=self.text, args=('Oui?',))
+        t = threading.Thread(target=self.text, args=(txt,))
         t.start()
         
     def text(self,txt):
@@ -17,10 +18,8 @@ class Speak():
         txt = txt.replace('ê','ai')
         txt = txt.replace('pas,','pa,')
         volume= "level='90'";
-        os.system('pico2wave -l ' + self.lang + ' -w response.wav "<volume ' + volume + '>' + txt + '</volume>"')
-        os.system('aplay response.wav ')
-        os.system('rm response.wav')
+        subprocess.call('pico2wave -l ' + self.lang + ' -w response.wav "<volume ' + volume + '>' + txt + '</volume>" && aplay response.wav && rm response.wav', shell=True)
         
     def dong(self):
         f = os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),'resources'),'dong.wav')
-        os.system('aplay ' + f)
+        subprocess.call('aplay ' + f, shell=True)

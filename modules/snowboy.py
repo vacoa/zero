@@ -9,7 +9,7 @@ import time
 class Snowboy(Thread):
     def __init__(self, model, apicallback, sensitivity=0.5):
         Thread.__init__(self)
-        
+
         self.apicallback = apicallback
         self.model = model
         
@@ -50,3 +50,8 @@ class Snowboy(Thread):
     def callback(self):
         logger.info('Snowboy callback...')
         contents = urllib.request.urlopen(self.apicallback).read()
+##        self.lock.acquire()
+##        print('ACQUIRE')
+##        report = self.gsp.listen()
+##        self.lock.release()
+##        print('RELEASE')
