@@ -61,7 +61,6 @@ class Player():
             try:
                 mystream = pafy.new(l['id']).getbestaudio()
                 self.media.add_media(self.vlc.media_new(mystream.url))
-                print(self.media.count())
             except Exception as e:
                 print(str(e))
 
@@ -76,6 +75,20 @@ class Player():
         elif mode == "youtube":
             thread = Thread(target=self.mediaytb, kwargs = {"query": query})
             thread.start()
+        elif mode == "list":
+            content = self.content()['list']
+            pl = None
+            for l in content:
+                if l['file'] == self.listFolder + '/' + query + '.json':
+                    pl = l
+                    break
+            paths = []
+            for p in pl['lib']:
+                print(self.libFolder + '/' + p)
+                paths.append(self.libFolder + '/' + p)
+            if pl is None:
+                raise('Empty playlist for query "' + query + '"')
+            self.medialoc(paths)
         while self.media.count() < 1:
             True
         self.player.play()
@@ -129,6 +142,7 @@ class Player():
 ##rootFolder = "/home/pi/share/player"
 ##gytb = gyoutube.Gyoutube(secret)
 ##ply = Player(rootFolder,gytb)
+##print(ply.content())
 ##
 ##ply.playmedia('local',['/home/pi/share/player/lib/Comets.mp3', '/home/pi/share/player/lib/Chupee.mp3'])
 ##

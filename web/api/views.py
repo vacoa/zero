@@ -112,8 +112,7 @@ def player(request):
     ply = apps.get_app_config('api').ply
     if cmd == 'musique':
         if not arg:
-            ply.playmedia('local',['/home/pi/share/player/lib/Comets.mp3',
-                                   '/home/pi/share/player/lib/Chupee.mp3'])
+            ply.playmedia('list','defaut')
     elif cmd == 'stop':
         ply.stop()
     elif cmd == 'play':

@@ -24,7 +24,7 @@ class Action:
             elif trans.lower() in ["tais-toi","rien"]:
                 self.spk.text('Ah, ok.')
             elif trans.lower()=="c'est qui la plus belle":
-                self.spk.text("C'est Zohé.")
+                self.spk.text("C'est Zoé.")
             elif trans.lower().startswith('volume'):
                 m = re.match( r'volume([^0-9]*)([0-9]+)(.*)', trans.lower(), re.M|re.I)
                 if not m:
@@ -47,6 +47,24 @@ class Action:
                         self.spk.text("Je n'ai pas compris la commande de volume.")
                 else:
                     self.spk.text("Je n'ai pas compris la commande de volume.")
+            elif trans.lower() in ['précédent','précédente','recule']:
+                return {'callback': lambda:self.ply.previous()}
+            elif trans.lower() in ['suivant','suivante','avance']:
+                return {'callback': lambda:self.ply.next()}
+            elif trans.lower() in ['pause','pose','poste','bose']:
+                return {'callback': lambda:self.ply.pause()}
+            elif trans.lower() in ['reprends','reprend','reprendre','continue']:
+                return {'callback': lambda:self.ply.play()}
+            elif trans.lower()=="musique":
+                return {'callback': lambda:self.ply.playmedia('list','defaut')}
+            elif trans.lower().startswith("youtube"):
+                m = re.match( r'youtube (.*)', trans.lower(), re.M|re.I)
+                if m:
+                    print('(1)="' + m.group(1) + '"')
+                    self.spk.text_async("Je cherche sur Youtube. Je te prie de patienter quelques secondes.")
+                    self.ply.playmedia('youtube',m.group(1))
+                else:
+                    self.spk.text("Je n'ai pas compris la commande de musique.")
             else:
                 self.spk.text('Pourrais-tu parler de manière plus intelligible?')
                 return {'trans':trans}

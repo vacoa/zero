@@ -1,3 +1,6 @@
 sudo apt-get install vlc
 pip3 install python-vlc
 pip3 install pulsectl
+pip3 install aubio
+pip3 install music21
+

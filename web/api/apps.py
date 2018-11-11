@@ -21,18 +21,20 @@ class ApiConfig(AppConfig):
     root = "/home/pi/zero"
     urlroot = "http://192.168.178.82:8000"
     cred = root + "/Zero-b4a81cf1b175.json"
-    model = root + "/repo2/resources/okzero.pmdl"
-    
-    spk = speak.Speak()
-    gsp = gspeech.Gspeech(cred, speak=spk)
-    sb = snowboy.Snowboy(model, urlroot + "/api/_action")
-    sb.start()
-    sb.launch()
+    modelone = root + "/repo2/resources/okzero.pmdl"
+    modeltwo = root + "/repo2/resources/tesla.pmdl"
     gytbsecret = "/home/pi/zero/apiyoutube_secret.json"
     gytbFolder = "/home/pi/share/player"
+    
+    spk = speak.Speak()
     gytb = gyoutube.Gyoutube(gytbsecret)
     ply = player.Player(gytbFolder,gytb)
     act = action.Action(ply=ply,spk=spk)
+    gsp = gspeech.Gspeech(cred, speak=spk)
+    sb = snowboy.Snowboy([modelone, modeltwo], urlroot + "/api/_action", ply)
+    sb.start()
+    sb.launch()
+    
     
     
 ##    metashp = models.Metashp('\\\\imcsmb.imu.intel.com\\cogpow\\SHAPE_auto')
