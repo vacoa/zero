@@ -60,10 +60,22 @@ $(document).ready( function () {
 var current;
 var count;
 var paused = false;
+var pinch;
+var url;
 
 Leap.loop({enableGestures: true, background: true}, function(frame) {
   if (paused) {
     return; // Skip this update
+  }
+  // Hand data
+  if (frame.hands.length > 0) {
+    for (var i = 0; i < frame.hands.length; i++) {
+      if (frame.hands[i].pinchStrength >= 0.9){
+          pinch = "_pinch";
+      } else {
+          pinch = "";
+      }
+    }
   }
   // Gesture object data
   if (frame.gestures.length > 0) {
@@ -88,6 +100,7 @@ Leap.loop({enableGestures: true, background: true}, function(frame) {
                       swipeDirection = "down";
                   }                  
               }
+              swipeDirection = swipeDirection + pinch;
               if (swipeDirection == current) {
                   count = count + 1;
               } else {
@@ -107,6 +120,7 @@ Leap.loop({enableGestures: true, background: true}, function(frame) {
                 } else {
                     normal = 'circleleft';
                 }
+                normal = normal + pinch;
                 if (current == normal) {
                     count = count + 1;
                 } else {
@@ -120,6 +134,7 @@ Leap.loop({enableGestures: true, background: true}, function(frame) {
        }
        console.log(current);
        if (count>30) {
+              url = '../api/leap';
               switch (current){
                   case "up":
                       data = {'cmd' : 'play', 'arg': ''};
@@ -141,11 +156,19 @@ Leap.loop({enableGestures: true, background: true}, function(frame) {
                       break;
                 }
        }
+       if (count>70) {
+              url = '../api/action';
+              switch (current){
+                  case "circleright_pinch":
+                      data = {};
+                      break;
+                }
+       }
        if (data != null && !paused) {
-          console.log('Leap command');
+          console.log('Leap command ' + url);
           paused = true;
           $.ajax({
-            'url' : '../api/leap',
+            'url' : url,
             'type' : 'GET',
             'data' : data,
             'complete' : function() {

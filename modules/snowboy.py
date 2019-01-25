@@ -15,8 +15,8 @@ class Snowboy(Thread):
         self.apicallback = apicallback
         self.model = model
         
-        self.detector = snowboydecoder.HotwordDetector(self.model, sensitivity=[0.6, 0.45])
-        self.callbacks = [lambda: self.callbackone(),lambda: self.callbacktwo()]
+        self.detector = snowboydecoder.HotwordDetector(self.model, sensitivity=[0.48])
+        self.callbacks = [lambda: self.callbackone()]
         
         self.interrupted = False # Command
         self.state = False # Result
@@ -56,6 +56,7 @@ class Snowboy(Thread):
         if not self.ply.is_playing():
             logger.info('Snowboy callback 1 ...')
             self.timecallback = time.time()
+            contents = urllib.request.urlopen(self.apicallback).read()
 
     def callbacktwo(self):
         if not self.ply.is_playing() and time.time() < self.timecallback+3:

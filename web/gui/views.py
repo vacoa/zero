@@ -18,3 +18,6 @@ def about(request):
 def react(request):
     return render(request, 'gui/react.html')
 
+def sample(request):
+    return render(request, 'gui/sample.html')
+

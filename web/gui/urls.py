@@ -23,6 +23,7 @@ urlpatterns = [
     path('dashboard',views.dashboard),
     path('manual',views.manual),
     path('about',views.about),
+    path('sample',views.sample),
     #path('mapage2',views.mapage2),
     #path('react',views.react)
 ]

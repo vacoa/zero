@@ -53,6 +53,9 @@ class Player():
     def medialoc(self,path):
         for p in path:
             self.media.add_media(self.vlc.media_new(p))
+
+    def mediaurl(self,query):
+        self.media.add_media(self.vlc.media_new(query))
         
         
     def mediaytb(self,query):
@@ -89,6 +92,8 @@ class Player():
             if pl is None:
                 raise('Empty playlist for query "' + query + '"')
             self.medialoc(paths)
+        elif mode == "url":
+            self.mediaurl(query)
         while self.media.count() < 1:
             True
         self.player.play()

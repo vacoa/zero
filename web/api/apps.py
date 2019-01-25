@@ -11,6 +11,7 @@ import snowboy
 import gyoutube
 import player
 import action
+import gsheet
         
 
 # USe noreload option to avoid being launched twice and possibly launch threads twice
@@ -25,15 +26,18 @@ class ApiConfig(AppConfig):
     modeltwo = root + "/repo2/resources/tesla.pmdl"
     gytbsecret = "/home/pi/zero/apiyoutube_secret.json"
     gytbFolder = "/home/pi/share/player"
+    gshtsecret = "/home/pi/zero/gsheet_creds.json"
     
     spk = speak.Speak()
     gytb = gyoutube.Gyoutube(gytbsecret)
+    gsht = gsheet.Gsheet(gshtsecret)
     ply = player.Player(gytbFolder,gytb)
-    act = action.Action(ply=ply,spk=spk)
+    act = action.Action(ply=ply,spk=spk, gsht=gsht)
     gsp = gspeech.Gspeech(cred, speak=spk)
-    sb = snowboy.Snowboy([modelone, modeltwo], urlroot + "/api/_action", ply)
+    sb = snowboy.Snowboy([modelone], urlroot + "/api/_action", ply)
     sb.start()
     sb.launch()
+
     
     
     
