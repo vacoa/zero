@@ -52,7 +52,8 @@ We want to flash the Raspbian OS on the mirco SD card. This version of *Zero* ha
 - Install vlc `sudo apt-get install vlc`, install Portaudio `sudo apt-get install portaudio19-dev`, Atlas `sudo apt-get install libatlas-base-dev`
 - Install requirements `pip install -r requirements.txt`
 
-
+- Create the folder `~/share/app/cred`
+- Modify run.sh
 
 
 
