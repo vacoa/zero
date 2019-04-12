@@ -49,7 +49,7 @@ We want to flash the Raspbian OS on the mirco SD card. This version of *Zero* ha
 - Install Virtualenv `sudo pip3 install virtualenv``
 - Create virtual environment `virtualenv zenv` and activate it `source ~/share/zenv/bin/activate`
 - Create the folder `~/share/app` and clone the git repository in it `git clone https://github.com/jahsue78/zero.git`
-- Install vlc `sudo apt-get install vlc`
+- Install vlc `sudo apt-get install vlc`, install Portaudio `sudo apt-get install portaudio19-dev`, Atlas `sudo apt-get install libatlas-base-dev`
 - Install requirements `pip install -r requirements.txt`
 
 
