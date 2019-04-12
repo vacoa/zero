@@ -1,6 +1,6 @@
 # Zero Connected Home
 
-## Hardware List
+## Hardware list
 - Raspberry Pi 3B+ (with power adapter)
 - Micro SD card and a micro SD to SD adapter
 - Ethernet cable
@@ -22,7 +22,7 @@ We want to flash the Raspbian OS on the mirco SD card. This version of *Zero* ha
 - Open a web browser and connect to your router (e.g., go to [fritz.box](fritz.box) for FRITZ!Box users) to find the IP address of your Raspberry.
 - Download Putty and connect to your Raspberry. the default username is `pi` and password is `raspberry`.
 
-### Setup the Shared Folder
+### Setup the shared folder
 
 - From the command line `sudo apt-get install`, `sudo apt-get install vim` and `sudo apt-get install samba`
 - Create the folder `/home/pi/share`
@@ -43,10 +43,14 @@ We want to flash the Raspbian OS on the mirco SD card. This version of *Zero* ha
 ```
 - You should be able to access it from Windows explorer under `\\RASPBERRYPI\pishare`
 
-### Clone the Repository
+### Install Python, Pip and Virtualenv and clone the repository
 
-- Create the folder `/home/pi/share/app` and clone the git repository in it
-- 
+- Install Python `sudo apt-get install python3.5`
+- Install Virtualenv `sudo pip3 install virtualenv``
+- Create virtual environment `virtualenv zenv` and activate it `source ~/share/zenv/bin/activate`
+- Create the folder `~/share/app` and clone the git repository in it `git clone https://github.com/jahsue78/zero.git`
+- Install vlc `sudo apt-get install vlc`, install Portaudio `sudo apt-get install portaudio19-dev`, Atlas `sudo apt-get install libatlas-base-dev`
+- Install requirements `pip install -r requirements.txt`
 
 
 
