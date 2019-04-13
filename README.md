@@ -4,8 +4,8 @@
 - Raspberry Pi 3B+ (with power adapter)
 - Micro SD card and a micro SD to SD adapter
 - Ethernet cable
-- Microphone
-- Speakers
+- Jabbra 510 (microphone+speaker)
+
 
 ## Setup
 
@@ -49,7 +49,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 - Install Python `sudo apt-get install python3.5` and Virtualenv `sudo pip3 install virtualenv`
 - Create virtual environment `virtualenv zenv` and activate it `source ~/share/zenv/bin/activate`
 - Create the folder `~/share/app` and clone the git repository in it `git clone https://github.com/jahsue78/zero.git`
-- Install packages `sudo apt-get install vlc portaudio19-dev libatlas-base-dev pulseaudio libttspico-utils`
+- Install packages `sudo apt-get install vlc portaudio19-dev libatlas-base-dev pulseaudio libttspico-utils sox`
 - Install the Pip requirements `pip install -r requirements.txt`
 
 - Create the folder `~/share/app/cred`
@@ -60,5 +60,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 
 ## Tips
 
+- .asoundrc and pulse/damen.conf ?
 - Activate using `source activate.sh `
+- in snowboy decoder and gspeech: input_device_index = 2,
 
