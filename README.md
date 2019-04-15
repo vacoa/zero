@@ -88,9 +88,25 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
    - The devices should be different, the first one is used as microphone and speaker for the voice assistant and the second one as speaker for the music player
 - From a shell opened with through a VNC session `cd ~/share/app/zero` and launch *Zero* `./main.sh`. This will open the default web browser and will ask for your Google account credentials (only the first time).
 
+## Web application
+
+[Work in progress]
+
+## Install LeapMotion
+
+[Work in progress]
+
 ## Todos
 
 - Description to set up the offline music folders
+- Summary of the voice commands that are currently supported
+
+## References
+
+[Work in progress]
+- Google APIs
+- Snowboy
+- Django
 
 
 
