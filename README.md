@@ -1,11 +1,13 @@
 # Zero Connected Home
 
+Snowboy + Google Speech Streaming API.
+
 ## Hardware list
 - Raspberry Pi 3B+ (with power adapter)
 - Micro SD card and a micro SD to SD adapter
 - Ethernet cable
-- Jabbra 510 (microphone+speaker)
-
+- Jabra SPEAK 510 USB (microphone+speaker for the smart assistant)
+- Speaker (3.5 mm jack for the music)
 
 ## Setup
 
@@ -52,15 +54,33 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 - Install packages `sudo apt-get install vlc portaudio19-dev libatlas-base-dev pulseaudio libttspico-utils sox`
 - Install the Pip requirements `pip install -r requirements.txt`
 
+### Add the Google credentials
+
 - Create the folder `~/share/app/cred`
 - Add your credentials to the folder
-- Change config_example.ini in config.ini, add the IP address and the location to your credentials
-- Modify run.sh and add the IP address of the Django server
-- From a shell opened with VNC, launch *Zero* `~/share/app/zero/main.sh`. This will open the default web browser and will ask for your Google account credentials
+
+### Configure and start *Zero*
+- Configure Pulse Audio `mkdir ~/.config/pulse`, `cp ~/share/app/zero/config/daemon.conf ~/.config/pulse`
+- Rename `config_example.ini` to `config.ini`
+   - Add the IP address and the port
+   - The location to your credentials
+   - The devices:
+   ```
+   ==============================================
+   >>> Speech configuration:
+   (0, 'bcm2835 ALSA: - (hw:0,0)', 0)
+   (1, 'Jabra SPEAK 510 USB: Audio (hw:1,0)', 0)
+   (2, 'sysdefault', 0)
+   (3, 'default', 32)
+   ==============================================
+   >>> Player configuration:
+   (0, 'alsa_output.platform-soc_audio.analog-stereo', 'hw:0,0')
+   (1, 'alsa_output.usb-0b0e_Jabra_SPEAK_510_USB_745C4B89B3ED021900-00.analog-stereo', 'hw:1,0')
+   ```
+- From a shell opened with through a VNC session `cd ~/share/app/zero` and launch *Zero* `./main.sh`. This will open the default web browser and will ask for your Google account credentials (only the first time).
 
 ## Tips
 
 - .asoundrc and pulse/damen.conf ?
-- Activate using `source activate.sh `
-- in snowboy decoder and gspeech: input_device_index = 2,
+
 
