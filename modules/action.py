@@ -64,8 +64,7 @@ class Action:
                 m = re.match( r'note (.*)', trans.lower(), re.M|re.I)
                 if m:
                     print('(1)="' + m.group(1) + '"')
-                    self.gsht.append('1GA3Uy1XkPV8Pp8ezg0MIsAi85ZMSXtjcueYIQKtIZbE',
-                                    [[str(datetime.now()),m.group(1)]])
+                    self.gsht.append_default([[str(datetime.now()),m.group(1)]])
                     self.spk.text("J'ai noté, " + m.group(1) + ".")
                 else:
                     self.spk.text("Je n'ai pas compris la note.")

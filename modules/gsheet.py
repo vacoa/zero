@@ -10,7 +10,7 @@ from google.auth.transport.requests import Request
 
 class Gsheet():
     
-    def __init__(self,secret):
+    def __init__(self,secret,defaultId=None):
         creds = None
         credFolder = os.path.dirname(secret)
         pickleFile = credFolder + '/token.pickle'
@@ -44,7 +44,30 @@ class Gsheet():
         self.value_input_option = 'USER_ENTERED' 
         # How the input data should be inserted.
         self.insert_data_option = 'INSERT_ROWS'
+        
+        self.sheet_default = defaultId
 
+    def append_default(self,values):
+
+        # The ID of the spreadsheet to update.
+        #spreadsheet_id = 'id_of_the_spreadsheet' 
+
+        #value_range_body = {
+         #   "values": [
+         #   ["Cost", "Stocked", "Ship Date"],
+         #   ["$20.50", "4", "3/1/2016"]
+         # ]
+        #}
+
+        value_range_body = {
+            "values": values
+        }
+
+        request = self.service.spreadsheets().values().append(spreadsheetId=self.sheet_default, range=self.range_, valueInputOption=self.value_input_option, insertDataOption=self.insert_data_option, body=value_range_body)
+        response = request.execute()
+
+        # TODO: Change code below to process the `response` dict:
+        pprint(response)
     def append(self,spreadsheet_id,values):
 
         # The ID of the spreadsheet to update.

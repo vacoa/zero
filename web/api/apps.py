@@ -32,13 +32,14 @@ class ApiConfig(AppConfig):
     gshtsecret = config['DEFAULT']['KEY_ROOT'] + "/" + config['DEFAULT']['KEY_GSHEET']
     speechDevice = int(config['DEFAULT']['SPEECH_DEVICE'])
     playerDevice = int(config['DEFAULT']['PLAYER_DEVICE'])
+    sheetId = config['DEFAULT']['SHEET_ID']
     
     modelone = root + "/resources/okzero.pmdl"
     modeltwo = root + "/resources/tesla.pmdl"
     
     spk = speak.Speak(device_index=speechDevice)
     gytb = gyoutube.Gyoutube(gytbsecret)
-    gsht = gsheet.Gsheet(gshtsecret)
+    gsht = gsheet.Gsheet(gshtsecret,defaultId=sheetId)
     ply = player.Player(gytbFolder,gytb, deviceIndex=playerDevice)
     act = action.Action(ply=ply,spk=spk, gsht=gsht)
     gsp = gspeech.Gspeech(gspeechsecret, speak=spk, device=speechDevice)
