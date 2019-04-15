@@ -3,7 +3,7 @@
 *Zero* is a voice assistant running on Raspberry Pi 3B+ and developed in Python 3.5. It integrates:
 - A *hotword detection* module using a Python 3 binding library of [Snowboy](https://github.com/Kitt-AI/snowboy/tree/master/lib)
 - A *speech-to-text* module using the Google Speech-to-Text API
-- An *music player* module using the Youtube Data API and VLC for on-device offline playlists, Youtube music and french radio stations
+- An *music player* module using the Youtube Data API and VLC for on-device offline playlists, Youtube music and radio stations
 - A *note* module to write notes using the Google Sheets API
 - A *Django web application* to access the main controls from any devices in the home network
 - A *Javascript library* module to control *Zero* via hand gestures using the [Leap Motion](https://www.leapmotion.com/) infrared sensor
