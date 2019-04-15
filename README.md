@@ -1,15 +1,16 @@
 # Zero Connected Home
 
 *Zero* is a voice assistant running on Raspberry Pi 3B+ and developed in Python 3.5. It integrates:
-- A *keyword detection* module using a Python 3 binding library of [Snowboy](https://github.com/Kitt-AI/snowboy/tree/master/lib)
+- A *hotword detection* module using a Python 3 binding library of [Snowboy](https://github.com/Kitt-AI/snowboy/tree/master/lib)
 - A *speech-to-text* module using the Google Speech-to-Text API
-- An *offline music player* module for on-device playlists
-- A *Youtube music player* mdoule using the Youtube Data API
+- An *music player* module using the Youtube Data API and VLC for on-device offline playlists, Youtube music and french radio stations
 - A *note* module to write notes using the Google Sheets API
 - A *Django web application* to access the main controls from any devices in the home network
 - A *Javascript library* module to control *Zero* via hand gestures using the [Leap Motion](https://www.leapmotion.com/) infrared sensor
 
-## Hardware list
+Simply say **Ok Zero**.
+
+## I. Hardware list
 - Raspberry Pi 3B+ (with power adapter)
 - Micro SD card and a micro SD to SD adapter
 - Ethernet cable
@@ -17,7 +18,7 @@
 - Speaker (3.5 mm jack for the music player)
 - Leap Motion infrared sensor (optional)
 
-## Setup
+## II. Setup
 
 This version of *Zero* has been tested with Raspbian Stretch (Desktop version 2018-06-27 release). The steps described below correspond to the headless installation mode (without screen) with an ethernet connection to your home network. The Raspbian OS is flashed on the mirco SD card from a Windows computer with internet connection and micro SD card reader.
 
@@ -76,6 +77,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 - Rename `config_example.ini` to `config.ini` and modify it to match your configuration
    - Modify the **IP** parameter to match the Raspberry IP address in your home network
    - Modify the fields **KEY_GSPEECH** (Google Speech-to-Text API),  **KEY_GYTB** (Youtube Data API), **KEY_GSHEET** (Google Sheets API) to match the JSON file name of your private keys in `~/share/app/cred`
+   - Modify the field **SHEET_ID** put a valid spreadsheet ID from your drive
    - Execute `python ~/share/app/zero/modules/util.audio.py` to display the audio configuration, you should see something similar to this:
    ```
    ==============================================
@@ -96,26 +98,81 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
    - The devices should be different, the first one is used as microphone and speaker for the voice assistant and the second one as speaker for the music player
 - Open a VNC session, open a shell, go to the *Zero* root folder `cd ~/share/app/zero`, activate your environment `source activate.sh` and launch *Zero* `./main.sh`. This will open the default web browser and will ask for your Google account credentials (only the first time).
 
-## Web application
+## III. Usage
 
-[Work in progress]
+To wake up *Zero*, simply say the hotword **Ok Zero** and wait for her response before saying your voice command.
 
-## Install LeapMotion
+### Voice commands
 
-[Work in progress]
-LeapDeveloperKit_3.2.1_win.zip
+The following examples are French voice commands:
+- **Musique**: Play the default playlist `defaut.json` (see **Offline music** section)
+- **Musique "test"**: Play the playlist `test.json` (see **Offline music** section)
+- **YouTube "Amélie Poulain"**: Play the music found on YouTube with the search keywords "Amélie Poulain"
+- **Radio "Nova"**: Play radio "Nova" (other radios are "RTL", "France Inter", "Europe 1", "TSF Jazz", "FIP", "France Culture", "France Info", "OUI FM")
+- **Volume +10**: Increase the volume by 10
+- **Volume -5**: Decrease the volume by 5
+- **Volume 15**: Set the volume to 15
+- **Volume 15**: Set the volume to 15
+- **Pause**: Pause music
+- **Continue**: Resume music
+- **Précédent**: Previous track
+- **Suivant**: Next track
+- **Note "Notre-Dame de Paris est en feu"**: Add the new line "Notre-Dame de Paris est en feu" to your spreadsheet
 
-## Todos
+### Web application
 
-- Description to set up the offline music folders
-- Summary of the voice commands that are currently supported
+The web application allows to control With a device connected to the home network, go to the following URL: `http://<IP>:<PORT>/gui/dashboard`. You can see different push buttons:
+- **Listen and Write**: *Zero* listens and write the text in the **Results** section
+- **Listen and Do**: Trigger hotword detection, i.e., *Zero* listens and do the specified action
+- **Activate**: Enable or disable hotword detection
 
-## References
+### Offline music
+
+- The music files should be in the music library folder `~/share/player/lib`
+- The playlists are defined in `~/share/player/list`
+- Copy the examplary playlists `cp ~/share/app/zero/config/examples/defaut.json ~/share/player/list` and `cp ~/share/app/zero/config/examples/test.json ~/share/player/list`
+- In a playlist file, the tracks are defined relatively to the music library folder `~/share/player/lib`
+- The default playlist `defaut.json` is played with the voice command **Musique**
+
+## IV. Hand gesture control
+
+The Javascript library is included in the web application. The Leap motion controller is connected to a Windows computer.
+
+### Setup 
+
+- Download the Leap Motion Orion 3.2.1 SDK installer [here](https://developer.leapmotion.com/releases) 
+- Follow the installation steps
+
+### Usage
+
+All the *hand* gestures correspond to open hand gesture whereas *pinch* gestures correspond to gestures with thumb and index fingers touching each others.
+
+- *Hand up* gesture: Play music
+- *Hand down* gesture: Pause music
+- *Hand right* gesture: Next track
+- *Hand left* gesture: Previous track
+- *Hand clockwise circle* gesture: Volume up
+- *Hand anti-clockwise circle* gesture: Volume down
+- *Pinch clockwise circle* gesture: Trigger hotword detection, equivalent to say **Ok Zero**
+
+## V. Tips
+
+### Change the language
+
+- Modify the `action.py`, `gspeech.py` and `speak.py` modules. [Currently working on the English version]
+
+## VI. Todos
+
+- Support other languages
+- Detail references
+
+## VII. References
 
 [Work in progress]
 - Google APIs
 - Snowboy
 - Django
+- Leap Motion
 
 
 
