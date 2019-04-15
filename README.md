@@ -83,11 +83,14 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
    (0, 'alsa_output.platform-soc_audio.analog-stereo', 'hw:0,0')
    (1, 'alsa_output.usb-0b0e_Jabra_SPEAK_510_USB_745C4B89B3ED021900-00.analog-stereo', 'hw:1,0')
    ```
-   - Modify the Speech device ID **SPEECH_DEVICE** with the one corresponding to your device (e.g., the *Jabra SPEAK 510* device has the ID 2)
-   - Modify the Speech device ID **PLAYER_DEVICE** with the one corresponding to your device (e.g., the *alsa_output.platform-soc_audio.analog-stereo* device has ID 0)
+   - Modify the *Speech* device ID **SPEECH_DEVICE** with the one corresponding to your device (e.g., the *Jabra SPEAK 510* device has the ID 2)
+   - Modify the *Player* device ID **PLAYER_DEVICE** with the one corresponding to your device (e.g., the *alsa_output.platform-soc_audio.analog-stereo* device has ID 0)
+   - The devices should be different, the first one is used as microphone and speaker for the voice assistant and the second one as speaker for the music player
 - From a shell opened with through a VNC session `cd ~/share/app/zero` and launch *Zero* `./main.sh`. This will open the default web browser and will ask for your Google account credentials (only the first time).
 
-## Tips
+## Todos
+
+- Description to set up the offline music folders
 
 
 
