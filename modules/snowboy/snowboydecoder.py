@@ -130,7 +130,8 @@ class HotwordDetector(object):
               sleep_time=0.03,
               audio_recorder_callback=None,
               silent_count_threshold=15,
-              recording_timeout=100):
+              recording_timeout=100,
+              device_index=2):
         """
         Start the voice detector. For every `sleep_time` second it checks the
         audio buffer for triggering keywords. If detected, then call
@@ -160,6 +161,7 @@ class HotwordDetector(object):
         
         
         self._running = True
+        self.device_index = device_index
 
         def audio_callback(in_data, frame_count, time_info, status):
             self.ring_buffer.extend(in_data)
@@ -168,14 +170,9 @@ class HotwordDetector(object):
 
         with no_alsa_error():
             self.audio = pyaudio.PyAudio()
-        self.stream_in = self.audio.open(
-            input=True, output=False,
-            format=self.audio.get_format_from_width(
-                self.detector.BitsPerSample() / 8),
-            channels=self.detector.NumChannels(),
-            rate=self.detector.SampleRate(),
-            frames_per_buffer=2048,
-            stream_callback=audio_callback)
+            
+        pyaudio.PyAudio() # Jonathan: Important line to avoid invalid number of channel error
+        self.openStream(audio_callback)
 
         if interrupt_check():
             logger.debug("detect voice return")
@@ -221,7 +218,11 @@ class HotwordDetector(object):
                     logger.info(message)
                     callback = detected_callback[status-1]
                     if callback is not None:
+                        self.stream_in.stop_stream() 
+                        self.stream_in.close()
                         callback()
+                        self.openStream(audio_callback)
+                        
 
                     if audio_recorder_callback is not None:
                         state = "ACTIVE"
@@ -249,6 +250,17 @@ class HotwordDetector(object):
                 self.recordedData.append(data)
 
         logger.debug("finished.")
+        
+    def openStream(self,audio_callback):
+        self.stream_in = self.audio.open(
+            input=True, output=False,
+            format=self.audio.get_format_from_width(
+                self.detector.BitsPerSample() / 8),
+            channels=self.detector.NumChannels(),
+            rate=self.detector.SampleRate(),
+            frames_per_buffer=2048,
+            input_device_index = self.device_index,
+            stream_callback=audio_callback)
 
     def saveMessage(self):
         """

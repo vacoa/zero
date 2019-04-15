@@ -9,11 +9,12 @@ import time
 
 
 class Snowboy(Thread):
-    def __init__(self, model, apicallback, player, sensitivity=0.5):
+    def __init__(self, model, apicallback, player, sensitivity=0.5, device=None):
         Thread.__init__(self)
 
         self.apicallback = apicallback
         self.model = model
+        self.device_index = device
         
         self.detector = snowboydecoder.HotwordDetector(self.model, sensitivity=[0.48])
         self.callbacks = [lambda: self.callbackone()]
@@ -32,7 +33,8 @@ class Snowboy(Thread):
             while not self.interrupted:
                 self.detector.start(detected_callback=self.callbacks,
                                interrupt_check=self.interrupt_callback,
-                               sleep_time=0.001)
+                               sleep_time=0.001,
+                               device_index=self.device_index)
             self.detector.terminate()
             self.state = False
             logger.info("Snowboy stop")

@@ -10,10 +10,10 @@ import sys
 from threading import Thread
 import pulsectl
 
-# Important: Configure vlcrc with 'alsa-audio-device=hw:0,0' and restart to choose your audio device
+# Important (deprecated, now done directly in code): Configure vlcrc (~/.config/vlc/vlcrc) with 'alsa-audio-device=hw:0,0' and restart to choose your audio device
 
 class Player():
-    def __init__(self,rootFolder,gytb):
+    def __init__(self,rootFolder,gytb,deviceIndex=None):
         self.gytb = gytb
         self.rootFolder = rootFolder
         self.libFolder = rootFolder + '/lib'
@@ -25,11 +25,12 @@ class Player():
             os.makedirs(self.listFolder)
         if not os.path.exists(self.ytbFolder):
             os.makedirs(self.ytbFolder)
-        self.vlc = vlc.Instance()
+        self.pulse = pulsectl.Pulse().sink_list()[deviceIndex]
+        self.vlc = vlc.Instance('--aout=alsa', '--alsa-audio-device=hw:' + self.pulse.proplist['alsa.card'] + ',' + self.pulse.proplist['alsa.device'])
         self.player = self.vlc.media_list_player_new()
         self.media = []
-        self.pulse = pulsectl.Pulse().sink_list()[1]
         
+    '''       
     def getDevices(self):
         devices = []
         m = self.vlc.media_player_new()
@@ -47,8 +48,8 @@ class Player():
         # PLease instantiate a new player before that (as soon as you change track or pause the player,
         # it will switch back to the default device defined in vlcrc
         # 'player = instance.media_player_new()'
-        self.player.audio_output_device_set(None, device)
-        
+        self.player.get_media_player().audio_output_device_set(None, device)
+    '''      
 
     def medialoc(self,path):
         for p in path:

@@ -12,46 +12,41 @@ import gyoutube
 import player
 import action
 import gsheet
-        
+import configparser          
 
 # USe noreload option to avoid being launched twice and possibly launch threads twice
 class ApiConfig(AppConfig):
 
     name = 'api'
     busyLock = threading.Lock()
-    root = "/home/pi/zero"
-    urlroot = "http://192.168.178.82:8000"
-    cred = root + "/Zero-b4a81cf1b175.json"
-    modelone = root + "/repo2/resources/okzero.pmdl"
-    modeltwo = root + "/repo2/resources/tesla.pmdl"
-    gytbsecret = "/home/pi/zero/apiyoutube_secret.json"
-    gytbFolder = "/home/pi/share/player"
-    gshtsecret = "/home/pi/zero/gsheet_creds.json"
+    root = os.path.dirname(os.path.realpath(__file__)) + "/../.."
     
-    spk = speak.Speak()
+    config = configparser.ConfigParser()
+    config.read(root + '/config.ini')
+    
+    urlroot = 'http://' + config['GLOBAL']['IP'] + ':' + config['GLOBAL']['PORT'] 
+    gspeechsecret = config['DEFAULT']['KEY_ROOT'] + "/" + config['DEFAULT']['KEY_GSPEECH']
+    
+    gytbsecret = config['DEFAULT']['KEY_ROOT'] + "/" + config['DEFAULT']['KEY_GYTB']
+    gytbFolder = config['DEFAULT']['GYTB_ROOT']
+    gshtsecret = config['DEFAULT']['KEY_ROOT'] + "/" + config['DEFAULT']['KEY_GSHEET']
+    speechDevice = int(config['DEFAULT']['SPEECH_DEVICE'])
+    playerDevice = int(config['DEFAULT']['PLAYER_DEVICE'])
+    
+    modelone = root + "/resources/okzero.pmdl"
+    modeltwo = root + "/resources/tesla.pmdl"
+    
+    spk = speak.Speak(device_index=speechDevice)
     gytb = gyoutube.Gyoutube(gytbsecret)
     gsht = gsheet.Gsheet(gshtsecret)
-    ply = player.Player(gytbFolder,gytb)
+    ply = player.Player(gytbFolder,gytb, deviceIndex=playerDevice)
     act = action.Action(ply=ply,spk=spk, gsht=gsht)
-    gsp = gspeech.Gspeech(cred, speak=spk)
-    sb = snowboy.Snowboy([modelone], urlroot + "/api/_action", ply)
+    gsp = gspeech.Gspeech(gspeechsecret, speak=spk, device=speechDevice)
+    sb = snowboy.Snowboy([modelone], urlroot + "/api/_action", ply, device=speechDevice)
     sb.start()
     sb.launch()
 
     
     
-    
-##    metashp = models.Metashp('\\\\imcsmb.imu.intel.com\\cogpow\\SHAPE_auto')
-##
-##
-##    def ready(self):
-##        thread = Thread(target=self.loop)
-##        thread.daemon = True
-##        thread.start()
-##
-##    def loop(self):
-##        while True:
-##            self.metashp.update()
-##            time.sleep(10)
 
 

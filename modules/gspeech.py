@@ -15,7 +15,7 @@ from six.moves import queue
 
 
 class Gspeech():
-    def __init__(self, cred, language_code='fr-FR', speak=None):
+    def __init__(self, cred, language_code='fr-FR', speak=None, device=None):
         # Audio recording parameters
         self.rate = 16000
         self.chunk = int(self.rate / 10)  # 100ms
@@ -25,6 +25,8 @@ class Gspeech():
         # See http://g.co/cloud/speech/docs/languages
         # for a list of supported languages.
         self.language_code = 'fr-FR'  # a BCP-47 language tag
+        
+        self.device_index = device
 
         self.client = speech.SpeechClient()
         self.config = types.RecognitionConfig(
@@ -46,7 +48,7 @@ class Gspeech():
                   'conf':None, # Confidence in the transcript
                   'isfin':None} # Is the result final according to Google
         
-        with MicrophoneStream(self.rate, self.chunk, initout, timeout, maxtime, last) as stream:
+        with MicrophoneStream(self.rate, self.chunk, initout, timeout, maxtime, last, device_index=self.device_index) as stream:
             
             audio_generator = stream.generator()
             requests = (types.StreamingRecognizeRequest(audio_content=content)
@@ -94,7 +96,7 @@ class Gspeech():
 
 class MicrophoneStream(object):
     """Opens a recording stream as a generator yielding the audio chunks."""
-    def __init__(self, rate, chunk, initout, timeout, maxtime, last):
+    def __init__(self, rate, chunk, initout, timeout, maxtime, last, device_index=None):
         self._rate = rate
         self._chunk = chunk
         
@@ -106,6 +108,7 @@ class MicrophoneStream(object):
         self.starttime = None
         self.maxtime = maxtime
         self.firsttime = None
+        self.device_index = device_index
 
         # Create a thread-safe buffer of audio data
         self._buff = queue.Queue()
@@ -121,6 +124,7 @@ class MicrophoneStream(object):
             # https://goo.gl/z757pE
             channels=1, rate=self._rate,
             input=True, frames_per_buffer=self._chunk,
+            input_device_index = self.device_index,
             # Run the audio stream asynchronously to fill the buffer object.
             # This is necessary so that the input device's buffer doesn't
             # overflow while the calling thread makes network requests, etc.

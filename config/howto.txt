@@ -1,0 +1,5 @@
+These are configuration files:
+
+~/.config/pulse/daemon.conf 
+(optional) ~/.asoundrc 
+(optional) ~/.config/vlc/vlcrc 
