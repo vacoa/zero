@@ -1,4 +1,4 @@
-# Zero Connected Home
+# Zero
 
 *Zero* is a voice assistant running on Raspberry Pi 3B+ and developed in Python 3.5. It integrates:
 - A *hotword detection* module using a Python 3 binding library of [Snowboy](https://github.com/Kitt-AI/snowboy/tree/master/lib)
