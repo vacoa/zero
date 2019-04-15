@@ -63,7 +63,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 - Configure Pulse Audio `mkdir ~/.config/pulse`, `cp ~/share/app/zero/config/daemon.conf ~/.config/pulse`
 - Rename `config_example.ini` to `config.ini`
    - Add the IP address and the port
-   - The location to your credentials
+   - The location to your credentials (Google TextToSpeech, Youtube and Sheets API secret keys)
    - The devices:
    ```
    ==============================================
