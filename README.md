@@ -57,13 +57,17 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 ### Add the Google credentials
 
 - Create the folder `~/share/app/cred`
-- Add your credentials to the folder
+- For each of the following links, follow the steps until you got your private key:
+      - Go to the [Speech-to-Text](https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries) page, click on **SET UP A PROJECT** and follow the steps until you got your private key as a  JSON file
+      - Go to the Youtube Data API [here](https://developers.google.com/youtube/v3/getting-started) page and follow the steps until you got your private key as a JSON file
+      - Go to the [Google Sheets API](https://developers.google.com/sheets/api/quickstart/python) page, click on **ENABLE THE GOOGLE SHEETS API** and follow the steps until you got your private key as a  JSON file
+- Add the 3 JSON files to the folder `~/share/app/cred`
 
 ### Configure and start *Zero*
 - Configure Pulse Audio `mkdir ~/.config/pulse`, `cp ~/share/app/zero/config/daemon.conf ~/.config/pulse`
 - Rename `config_example.ini` to `config.ini`
    - Add the IP address and the port
-   - The location to your credentials (Google TextToSpeech, Youtube and Sheets API secret keys)
+   - The JSON file names of your secret keys that should be located in `~/share/app/cred`
    - The devices:
    ```
    ==============================================
