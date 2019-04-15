@@ -58,33 +58,36 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 
 - Create the folder `~/share/app/cred`
 - For each of the following links, follow the steps until you got your private key:
-      - Go to the [Speech-to-Text](https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries) page, click on **SET UP A PROJECT** and follow the steps until you got your private key as a  JSON file
+      - Go to the [Google Speech-to-Text API](https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries) page, click on **SET UP A PROJECT** and follow the steps until you got your private key as a  JSON file
       - Go to the Youtube Data API [here](https://developers.google.com/youtube/v3/getting-started) page and follow the steps until you got your private key as a JSON file
       - Go to the [Google Sheets API](https://developers.google.com/sheets/api/quickstart/python) page, click on **ENABLE THE GOOGLE SHEETS API** and follow the steps until you got your private key as a  JSON file
 - Add the 3 JSON files to the folder `~/share/app/cred`
 
 ### Configure and start *Zero*
 - Configure Pulse Audio `mkdir ~/.config/pulse`, `cp ~/share/app/zero/config/daemon.conf ~/.config/pulse`
-- Rename `config_example.ini` to `config.ini`
-   - Add the IP address and the port
-   - The JSON file names of your secret keys that should be located in `~/share/app/cred`
-   - The devices:
+- Rename `config_example.ini` to `config.ini` and modify it to match your configuration
+   - Modify the **IP** parameter to match the Raspberry IP address in your home network
+   - Modify the fields **KEY_GSPEECH** (Google Speech-to-Text API),  **KEY_GYTB** (Youtube Data API), **KEY_GSHEET** (Google Sheets API) to match the file names of your private keys in `~/share/app/cred`
+   - Execute `python ~/share/app/zero/modules/util.audio.py`, you should see something similar to this:
    ```
    ==============================================
    >>> Speech configuration:
    (0, 'bcm2835 ALSA: - (hw:0,0)', 0)
-   (1, 'Jabra SPEAK 510 USB: Audio (hw:1,0)', 0)
-   (2, 'sysdefault', 0)
-   (3, 'default', 32)
+   (1, 'bcm2835 ALSA: IEC958/HDMI (hw:0,1)', 0)
+   (2, 'Jabra SPEAK 510 USB: Audio (hw:1,0)', 1)
+   (3, 'sysdefault', 0)
+   (4, 'dmix', 0)
+   (5, 'default', 32)
    ==============================================
    >>> Player configuration:
    (0, 'alsa_output.platform-soc_audio.analog-stereo', 'hw:0,0')
    (1, 'alsa_output.usb-0b0e_Jabra_SPEAK_510_USB_745C4B89B3ED021900-00.analog-stereo', 'hw:1,0')
    ```
+   - Modify the Speech device ID **SPEECH_DEVICE** with the one corresponding to your device (e.g., the *Jabra SPEAK 510* device has the ID 2)
+   - Modify the Speech device ID **PLAYER_DEVICE** with the one corresponding to your device (e.g., the *alsa_output.platform-soc_audio.analog-stereo* device has ID 0)
 - From a shell opened with through a VNC session `cd ~/share/app/zero` and launch *Zero* `./main.sh`. This will open the default web browser and will ask for your Google account credentials (only the first time).
 
 ## Tips
 
-- .asoundrc and pulse/damen.conf ?
 
 
