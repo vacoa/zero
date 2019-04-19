@@ -1,7 +1,7 @@
 # Zero (voice assistant and connected home)
 
 *Zero* is a voice assistant running on Raspberry Pi 3B+ and developed in Python 3.5. It integrates:
-- A *hotword detection* module using a Python 3 binding library of [Snowboy](https://github.com/Kitt-AI/snowboy/tree/master/lib)
+- A *hotword detection* module using a Python 3 binding library of [Snowboy](https://github.com/Kitt-AI/snowboy/tree/master/lib) built with [Swig](http://www.swig.org/)
 - A *speech-to-text* module using the Google Speech-to-Text API
 - An *music player* module using the Youtube Data API and VLC for on-device offline playlists, Youtube music and radio stations
 - A *note* module to write notes using the Google Sheets API
