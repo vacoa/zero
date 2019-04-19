@@ -166,6 +166,8 @@ All the *hand* gestures correspond to open hand gesture whereas *pinch* gestures
 
 - Support other languages
 - Detail references
+- Add "Moins fort" voice command for the music volume
+- Add sound feedback when tuning the volume with the Leap Motion
 
 ## VII. References
 
