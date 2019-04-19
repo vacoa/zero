@@ -20,7 +20,7 @@ Simply say **Ok Zero**.
 
 ## II. Setup
 
-This version of *Zero* has been tested with Raspbian Stretch (Desktop version 2018-06-27 release). The steps described below correspond to the headless installation mode (without screen) with an ethernet connection to your home network. The Raspbian OS is flashed on the mirco SD card from a Windows computer with internet connection and micro SD card reader.
+This version of *Zero* has been tested with Raspbian Stretch (Desktop version 2018-06-27 release). The steps described below correspond to the headless installation mode (without screen) with an ethernet connection to your home network. The Raspbian OS is flashed on the mirco SD card from a Windows computer with internet connection and micro SD card reader. To use the different modules base on Google APIs, you should have a Google account.
 
 ### Install Raspbian, setup SSH and VNC
 
@@ -30,7 +30,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 - Launch Etcher, select the Raspbian image file, select the SD card and flash the OS on it.
 - In the boot partition, simply add a file named **ssh** to enable SSH connections to our raspberry.
 - Insert the micro SD card into the Raspberry Pi, connect the power adapter and connect to the home network via ethernet.
-- Open a web browser and connect to your router (e.g., go to [fritz.box](fritz.box) for FRITZ!Box users) to find the IP address of your Raspberry.
+- Open a web browser and connect to your router (e.g., go to `fritz.box` for FRITZ!Box users) to find the IP address of your Raspberry.
 - Download Putty and SSH to your Raspberry. the default username is **pi** and password is **raspberry**.
 - Enable VNC with `sudo raspi-config`, **Interfacing Options** > **VNC** > **Yes**
 
@@ -53,15 +53,15 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
  force guest = pi
  security = share
 ```
-- You should be able to access it from Windows under `\\RASPBERRYPI\pishare`
+- Restart Samba `sudo service smbd restart` and you should be able to access it from Windows under `\\RASPBERRYPI\pishare`
 
 ### Install the dependencies and clone the repository
 
 - Install Python 3.5 `sudo apt-get install python3.5` and Virtualenv `sudo pip3 install virtualenv`
-- Create the virtual environment `virtualenv zenv` and activate it `source ~/share/zenv/bin/activate`
+- Create the virtual environment in the shared folder with `cd ~/share` and `virtualenv zenv` and activate it `source ~/share/zenv/bin/activate`
 - Create the folder `~/share/app` and clone the git repository in it `git clone https://github.com/jahsue78/zero.git`
 - Install the packages `sudo apt-get install vlc portaudio19-dev libatlas-base-dev pulseaudio libttspico-utils sox`
-- Install the Pip requirements `pip install -r requirements.txt`
+- Install the Pip requirements `pip install -r ./zero/requirements.txt`
 
 ### Add the Google credentials
 
@@ -78,7 +78,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
    - Modify the **IP** parameter to match the Raspberry IP address in your home network
    - Modify the fields **KEY_GSPEECH** (Google Speech-to-Text API),  **KEY_GYTB** (Youtube Data API), **KEY_GSHEET** (Google Sheets API) to match the JSON file name of your private keys in `~/share/app/cred`
    - Modify the field **SHEET_ID** put a valid spreadsheet ID from your drive
-   - Execute `python ~/share/app/zero/modules/util.audio.py` to display the audio configuration, you should see something similar to this:
+   - Execute `python ~/share/app/zero/modules/util/audio.py` to display the audio configuration, you should see something similar to this:
    ```
    ==============================================
    >>> Speech configuration:
@@ -101,6 +101,14 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 ## III. Usage
 
 To wake up *Zero*, simply say the hotword **Ok Zero** and wait for her response before saying your voice command.
+
+### Offline music
+
+- The music files should be in the music library folder `~/share/player/lib`
+- The playlists are defined in `~/share/player/list`
+- Copy the examplary playlists `cp ~/share/app/zero/config/examples/defaut.json ~/share/player/list` and `cp ~/share/app/zero/config/examples/test.json ~/share/player/list`
+- In a playlist file, the tracks are defined relatively to the music library folder `~/share/player/lib`
+- The default playlist `defaut.json` is played with the voice command **Musique**
 
 ### Voice commands
 
@@ -126,14 +134,6 @@ The web application allows to control With a device connected to the home networ
 - **Listen and Do**: Trigger hotword detection, i.e., *Zero* listens and do the specified action
 - **Activate**: Enable or disable hotword detection
 
-### Offline music
-
-- The music files should be in the music library folder `~/share/player/lib`
-- The playlists are defined in `~/share/player/list`
-- Copy the examplary playlists `cp ~/share/app/zero/config/examples/defaut.json ~/share/player/list` and `cp ~/share/app/zero/config/examples/test.json ~/share/player/list`
-- In a playlist file, the tracks are defined relatively to the music library folder `~/share/player/lib`
-- The default playlist `defaut.json` is played with the voice command **Musique**
-
 ## IV. Hand gesture control
 
 The Javascript library is included in the web application. The Leap motion controller is connected to a Windows computer.
@@ -142,6 +142,7 @@ The Javascript library is included in the web application. The Leap motion contr
 
 - Download the Leap Motion Orion 3.2.1 SDK installer [here](https://developer.leapmotion.com/releases) 
 - Follow the installation steps
+- If the Leap Motion does not work, you can try to restart the service, look for `Services` in the Windows search bar.
 
 ### Usage
 
