@@ -6,7 +6,8 @@
 - An *music player* module using the Youtube Data API and VLC for on-device offline playlists, Youtube music and radio stations
 - A *note* module to write notes using the Google Sheets API
 - A *Django web application* to access the main controls from any devices in the home network
-- A *Javascript library* module to control *Zero* via hand gestures using the [Leap Motion](https://www.leapmotion.com/) infrared sensor
+- A *Leap Motion library* module to control *Zero* via hand gestures using the [Leap Motion](https://www.leapmotion.com/) infrared sensor
+
 
 Simply say **Ok Zero**.
 
@@ -78,7 +79,7 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
    - Modify the **IP** parameter to match the Raspberry IP address in your home network
    - Modify the fields **KEY_GSPEECH** (Google Speech-to-Text API),  **KEY_GYTB** (Youtube Data API), **KEY_GSHEET** (Google Sheets API) to match the JSON file name of your private keys in `~/share/app/cred`
    - Modify the field **SHEET_ID** put a valid spreadsheet ID from your drive
-   - Execute `python ~/share/app/zero/modules/util/audio.py` to display the audio configuration, you should see something similar to this:
+   - Execute `python ~/share/app/zero/modules/util/audio.py` to display the audio configuration, you should see something similar to this (if not try to restart your Raspberry Pi with `sudo reboot`, do not forget to re-activate your environment after that):
    ```
    ==============================================
    >>> Speech configuration:
@@ -119,7 +120,6 @@ The following examples are French voice commands:
 - **Radio "Nova"**: Play radio "Nova" (other radios are "RTL", "France Inter", "Europe 1", "TSF Jazz", "FIP", "France Culture", "France Info", "OUI FM")
 - **Volume +10**: Increase the volume by 10
 - **Volume -5**: Decrease the volume by 5
-- **Volume 15**: Set the volume to 15
 - **Volume 15**: Set the volume to 15
 - **Pause**: Pause music
 - **Continue**: Resume music
