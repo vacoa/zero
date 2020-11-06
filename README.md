@@ -62,6 +62,13 @@ This version of *Zero* has been tested with Raspbian Stretch (Desktop version 20
 - Create the virtual environment in the shared folder with `cd ~/share` and `virtualenv zenv` and activate it `source ~/share/zenv/bin/activate`
 - Create the folder `~/share/app` and clone the git repository in it `git clone https://github.com/jahsue78/zero.git`
 - Install the packages `sudo apt-get install vlc portaudio19-dev libatlas-base-dev pulseaudio libttspico-utils sox`
+
+> If you get the error (`E: Package 'libttspico-utils' has no installation candidate`, run
+
+     wget http://ftp.us.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
+     wget http://ftp.us.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+git20130326-9_armhf.deb
+     apt-get install -f ./libttspico0_1.0+git20130326-9_armhf.deb ./libttspico-utils_1.0+git20130326-9_armhf.deb
+
 - Install the Pip requirements `pip install -r ./zero/requirements.txt`
 
 ### Add the Google credentials
