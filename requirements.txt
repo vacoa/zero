@@ -4,7 +4,7 @@ aubio==0.4.7
 music21==5.5.0
 gspread==3.1.0
 oauthclient==1.0.3
-Django==2.1.2
+Django==2.2.13
 google-cloud-speech==0.35.0
 PyAudio==0.2.11
 pafy==0.5.4
